@@ -211,6 +211,44 @@ namespace simpleCRUD
                     break;
                 }
 
+                case 2:
+                {
+                    Console.Clear();
+                    Console.WriteLine("========================\nList of All Authors");
+                    
+                    Author author = new Author();
+                    var authors = author.GetAllAuthors();
+
+                    foreach (var a in authors)
+                    {
+                        Console.WriteLine("========================");                                                
+                        Console.WriteLine("Author: " + a.Name);                        
+                    }                        
+
+                    ReturnBackMessage();
+
+                    break;                    
+                }
+
+                case 3:
+                {
+                    Console.Clear();
+                    Console.WriteLine("========================\nList of All Publishers");
+                    
+                    Publisher publisher     = new Publisher();
+                    var publishers          = publisher.GetAllPublishers();
+
+                    foreach (var p in publishers)
+                    {
+                        Console.WriteLine("========================");                                                
+                        Console.WriteLine("Publisher: " + p.Name);                        
+                    }                        
+
+                    ReturnBackMessage();
+
+                    break;
+                }
+
                 default:
                     break;
             }
