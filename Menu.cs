@@ -51,7 +51,7 @@ namespace simpleCRUD
 
                 case 4:
                 {
-                    SearchSubMenu();
+                    UpdateSubMenu();
                     
                     break;
                 }
@@ -118,8 +118,18 @@ namespace simpleCRUD
                     Book book           = new Book();
                     book.Title          = title;
                     book.IsBestSeller   = Convert.ToBoolean(isBestSeller);
+                    var result          = book.AddNewBook(book, authorName, publisherName);
 
-                    book.AddNewBook(book, authorName, publisherName);
+                    if (result > 0)
+                    {
+                        Console.Clear();
+                        Console.WriteLine("\nBook added to the shelf...");
+                    }
+                    else
+                    {
+                        Console.Clear();
+                        Console.WriteLine("\nWe've got a problem...");
+                    }
 
                     ReturnBackMessage();        
 
@@ -140,9 +150,19 @@ namespace simpleCRUD
 
                     }while (name == "");
 
-                    Author author = new Author();
-                    
-                    author.AddNewAuthor(name);
+                    Author author   = new Author();                    
+                    var result      = author.AddNewAuthor(name);
+
+                    if (result > 0)
+                    {
+                        Console.Clear();
+                        Console.WriteLine("Author added.");
+                    }
+                    else
+                    {
+                        Console.Clear();
+                        Console.WriteLine("We've got a problem...");
+                    }
 
                     ReturnBackMessage();      
 
@@ -163,9 +183,19 @@ namespace simpleCRUD
 
                     }while (name == "");
 
-                    Publisher publisher = new Publisher();
-                    
-                    publisher.AddNewPublisher(name);
+                    Publisher publisher     = new Publisher();                    
+                    var result              = publisher.AddNewPublisher(name);
+
+                    if (result > 0)
+                    {
+                        Console.Clear();
+                        Console.WriteLine("Publisher added.");
+                    }
+                    else
+                    {
+                        Console.Clear();
+                        Console.WriteLine("We've got a problem...");
+                    }
 
                     ReturnBackMessage();     
 
@@ -191,40 +221,15 @@ namespace simpleCRUD
             {
                 case 1:
                 {   
-                    Console.Clear();
-                    Console.WriteLine("========================\nList of All Books");
-                    
-                    Book book = new Book();
-                    var books = book.GetAllBooks();
-
-                    foreach (var b in books)
-                    {
-                        Console.WriteLine("========================");                        
-                        Console.WriteLine("ID: " + b.ID);
-                        Console.WriteLine("Title: " + b.Title);
-                        Console.WriteLine("Best Seller: " + b.IsBestSeller);
-                        Console.WriteLine("Author: " + b.author.Name);
-                        Console.WriteLine("Publisher: " + b.publisher.Name);
-                    }                        
-
+                    ListAllBooks();
                     ReturnBackMessage();  
+
                     break;
                 }
 
                 case 2:
                 {
-                    Console.Clear();
-                    Console.WriteLine("========================\nList of All Authors");
-                    
-                    Author author = new Author();
-                    var authors = author.GetAllAuthors();
-
-                    foreach (var a in authors)
-                    {
-                        Console.WriteLine("========================");                                                
-                        Console.WriteLine("Author: " + a.Name);                        
-                    }                        
-
+                    ListAllAuthors();
                     ReturnBackMessage();
 
                     break;                    
@@ -232,18 +237,7 @@ namespace simpleCRUD
 
                 case 3:
                 {
-                    Console.Clear();
-                    Console.WriteLine("========================\nList of All Publishers");
-                    
-                    Publisher publisher     = new Publisher();
-                    var publishers          = publisher.GetAllPublishers();
-
-                    foreach (var p in publishers)
-                    {
-                        Console.WriteLine("========================");                                                
-                        Console.WriteLine("Publisher: " + p.Name);                        
-                    }                        
-
+                    ListAllPublishers();
                     ReturnBackMessage();
 
                     break;
@@ -364,7 +358,94 @@ namespace simpleCRUD
         
         public void UpdateSubMenu()
         {
+            Console.Clear();
+            Console.WriteLine("1. Update Book");
+            Console.WriteLine("2. Update Author");
+            Console.WriteLine("3. Update Publisher");
+            Console.Write("> ");
 
+            int opt = ReadMenuOption();
+
+            switch(opt)
+            {
+                case 1:
+                {
+                    Console.Clear();
+                    Console.WriteLine("==========\nUpdate Book\n");        
+                    ListAllBooks();
+                    Console.Write("\n\nSelect Book's id: ");                    
+                    var id = int.Parse(Console.ReadLine());
+                    
+                    Console.Write("Type new book's title: ");
+                    var title = Console.ReadLine();
+                    
+                    Book book = new Book();
+                    
+                    var result  = book.UpdateBook(id, title);
+                    var b       = book.GetBook(title);
+
+                    if (result > 0)
+                    {
+                        Console.Clear();
+                        Console.WriteLine("Book Updated...");
+                    }                        
+                    else
+                    {
+                        Console.Clear();
+                        Console.WriteLine("We've got a problem...");
+                    }
+                        
+                    Console.WriteLine("New Book's title: " + b.Title);
+
+                    break;
+                }
+            }
+        }
+
+        public void ListAllBooks()
+        {            
+            Console.WriteLine("========================\nList of All Books");
+            
+            Book book = new Book();
+            var books = book.GetAllBooks();
+
+            foreach (var b in books)
+            {
+                Console.WriteLine("========================");                        
+                Console.WriteLine("ID: " + b.ID);
+                Console.WriteLine("Title: " + b.Title);
+                Console.WriteLine("Best Seller: " + b.IsBestSeller);
+                Console.WriteLine("Author: " + b.author.Name);
+                Console.WriteLine("Publisher: " + b.publisher.Name);
+            }                        
+        }
+
+        public void ListAllAuthors()
+        {            
+            Console.WriteLine("========================\nList of All Authors");
+            
+            Author author = new Author();
+            var authors = author.GetAllAuthors();
+
+            foreach (var a in authors)
+            {
+                Console.WriteLine("========================");                                                
+                Console.WriteLine("Author: " + a.Name);                        
+            }      
+        }
+
+        public void ListAllPublishers()
+        {            
+            Console.WriteLine("========================\nList of All Publishers");
+            
+            Publisher publisher     = new Publisher();
+            var publishers          = publisher.GetAllPublishers();
+
+            foreach (var p in publishers)
+            {
+                Console.WriteLine("========================");                                                
+                Console.WriteLine("Publisher: " + p.Name);                        
+            }                    
         }
     }
 }
