@@ -8,7 +8,7 @@ The reason of this project is to ilustrate knowledge and capability, I'm looking
 
 Known issues:
 - ~~Some DRY princeples violated (need fixing).~~
-- Data is not completly valitaded before pushing to the database.
+- Data is not valitaded before pushing to the database.
 - Data is not checked if it exists before inserting (used unique value, however ID auto incremets regardless, don't know if DBs are supposed to work like this. I don't like to say this... but "It's working" :grin:)
 - Tabulation is not the best, readeble, though.
 
