@@ -13,7 +13,7 @@ Known issues:
 - Tabulation is not the best, readeble, though.
 
 Needs implementation:
-- Uptade
+- Uptade (wip)
 - Delete
 
 Even though is the first project I've ever made, I'll keep returning to it for improvements and apllying new concepts and techniques but will look forward to new ones, since I need to show my evolution.
