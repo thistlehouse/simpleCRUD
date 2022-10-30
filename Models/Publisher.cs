@@ -25,7 +25,7 @@ namespace simpleCRUD.Models
         }
         // public string Location { get; set; }
 
-        public void AddNewPublisher(string name)
+        public int AddNewPublisher(string name)
         {
             using (var connection = DataBase.DataBaseConnector())
             {
@@ -36,9 +36,9 @@ namespace simpleCRUD.Models
                     $"INSERT INTO publisher (Name) VALUES (@Name)";
 
                 query.Parameters.AddWithValue("@Name", name);
-                query.ExecuteNonQuery();
-                Console.WriteLine("\nBook add to the shelf...");                
-                connection.Close();
+                
+                return query.ExecuteNonQuery();
+                
             }   
         }
 
@@ -92,12 +92,11 @@ namespace simpleCRUD.Models
                         return null;
                     }
 
-                    Publisher publisher = new Publisher();
-                        
                     while (reader.Read())
                     {
-                        publisher.id    = reader.GetInt32(0);
-                        publisher.name  = reader.GetString(1);                                                
+                        Publisher publisher = new Publisher();
+                        publisher.id        = reader.GetInt32(0);
+                        publisher.name      = reader.GetString(1);                                                
 
                         publishers.Add(publisher);
                     }
