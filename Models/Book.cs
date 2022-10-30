@@ -33,7 +33,7 @@ namespace simpleCRUD.Models
             set { isBestSeller = value; }
         }
 
-        public void AddNewBook(Book book, string authorName, string publisherName)
+        public int AddNewBook(Book book, string authorName, string publisherName)
         {            
             Author author       = new Author();
             Publisher publisher = new Publisher();
@@ -59,10 +59,7 @@ namespace simpleCRUD.Models
                     query.Parameters.AddWithValue("@AuthorID", authorId);
                     query.Parameters.AddWithValue("@PublisherID", publisherId);
 
-                    if (query.ExecuteNonQuery() > 0)
-                        Console.WriteLine("\nBook added to the shelf...");
-                    else
-                        Console.WriteLine("\nWe've got a problem...");
+                    return query.ExecuteNonQuery();
                 }
                 
             }
@@ -120,11 +117,11 @@ namespace simpleCRUD.Models
                         + "ON book.PublisherID = publisher.ID;";
 
                         MySqlDataReader reader  = query.ExecuteReader();
-                        List<Book> books        = new List<Book>();
-                        Book book               = new Book();
+                        List<Book> books        = new List<Book>();                        
 
                         while (reader.Read())
                         {
+                            Book book           = new Book();                            
                             book.id             = (int)reader["ID"];
                             book.Title          = reader["Title"].ToString();
                             book.isBestSeller   = Convert.ToBoolean(reader["IsBestSeller"]);
@@ -137,6 +134,25 @@ namespace simpleCRUD.Models
                     return books;  
                 }
             }                 
+        }
+
+        public int UpdateBook(int id, string value)
+        {
+            using (var connection = DataBase.DataBaseConnector())
+            {
+                connection.Open();
+
+                using (MySqlCommand query = connection.CreateCommand())
+                {
+                    query.CommandText = 
+                        @"UPDATE book SET Title = @Title WHERE ID = @ID;";
+
+                    query.Parameters.AddWithValue("@Title", value);
+                    query.Parameters.AddWithValue("@ID", id);
+
+                    return query.ExecuteNonQuery();
+                }
+            }
         }
     }
 }
