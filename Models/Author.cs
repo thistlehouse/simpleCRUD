@@ -24,7 +24,7 @@ namespace simpleCRUD.Models
             set { this.name = value; }
         }
 
-        public void AddNewAuthor(string name)
+        public int AddNewAuthor(string name)
         {
             using (var connection = DataBase.DataBaseConnector())
             {
@@ -37,10 +37,7 @@ namespace simpleCRUD.Models
 
                     query.Parameters.AddWithValue("@Name", name);
                     
-                    if (query.ExecuteNonQuery() > 0)
-                        Console.WriteLine("\nAuthor add to the shelf...");
-                    else
-                        Console.WriteLine("\nWe've got a problem...");
+                    return query.ExecuteNonQuery();
                 }                
             }  
         }
@@ -95,14 +92,13 @@ namespace simpleCRUD.Models
                         Console.WriteLine("There are no Authors...\n");
 
                         return null;
-                    }
-
-                    Author author = new Author();
+                    }                    
                         
                     while (reader.Read())
                     {
-                        author.id   = reader.GetInt32(0);
-                        author.name = reader.GetString(1);                        
+                        Author author   = new Author();
+                        author.id       = reader.GetInt32(0);
+                        author.name     = reader.GetString(1);                        
 
                         authors.Add(author);
                     }
@@ -112,6 +108,28 @@ namespace simpleCRUD.Models
             }   
 
             return authors;        
+        }
+
+        public void UpdateAuthor(int id, string value)
+        {
+            using (var connection = DataBase.DataBaseConnector())
+            {
+                connection.Open();
+
+                using (MySqlCommand query = connection.CreateCommand())
+                {
+                    query.CommandText = 
+                        @"UPDATE author SET Name = @Name WHERE ID = @ID;";
+
+                    query.Parameters.AddWithValue("@Name", value);
+                    query.Parameters.AddWithValue("@ID", id);
+
+                    if (query.ExecuteNonQuery() > 0)
+                        Console.WriteLine("\nAuthor updated...");
+                    else
+                        Console.WriteLine("\nWe've got a problem...");
+                }
+            }
         }
     }
 }
