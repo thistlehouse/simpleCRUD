@@ -154,5 +154,23 @@ namespace simpleCRUD.Models
                 }
             }
         }
+        
+        public int DeleteBook(int id)
+        {
+            using (var connection = DataBase.DataBaseConnector())
+            {
+                connection.Open();
+
+                using (MySqlCommand query = connection.CreateCommand())
+                {
+                    query.CommandText = 
+                        @"Delete FROM book WHERE ID = @ID;";
+                    
+                    query.Parameters.AddWithValue("@ID", id);
+
+                    return query.ExecuteNonQuery();
+                }
+            }
+        }
     }
 }
