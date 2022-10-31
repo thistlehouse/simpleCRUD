@@ -110,7 +110,7 @@ namespace simpleCRUD.Models
             return authors;        
         }
 
-        public void UpdateAuthor(int id, string value)
+        public int UpdateAuthor(int id, string value)
         {
             using (var connection = DataBase.DataBaseConnector())
             {
@@ -124,10 +124,7 @@ namespace simpleCRUD.Models
                     query.Parameters.AddWithValue("@Name", value);
                     query.Parameters.AddWithValue("@ID", id);
 
-                    if (query.ExecuteNonQuery() > 0)
-                        Console.WriteLine("\nAuthor updated...");
-                    else
-                        Console.WriteLine("\nWe've got a problem...");
+                    return query.ExecuteNonQuery();
                 }
             }
         }

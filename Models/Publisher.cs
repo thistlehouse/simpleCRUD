@@ -107,5 +107,42 @@ namespace simpleCRUD.Models
 
             return publishers;
         }
+
+        public int UpdatePublisher(int id, string value)
+        {
+            using (var connection = DataBase.DataBaseConnector())
+            {
+                connection.Open();
+
+                using (MySqlCommand query = connection.CreateCommand())
+                {
+                    query.CommandText = 
+                        @"UPDATE publisher SET Name = @Name WHERE ID = @ID;";
+
+                    query.Parameters.AddWithValue("@Name", value);
+                    query.Parameters.AddWithValue("@ID", id);
+
+                    return query.ExecuteNonQuery();
+                }
+            }
+        }
+
+        public int DeletePublisher(int id)
+        {
+            using (var connection = DataBase.DataBaseConnector())
+            {
+                connection.Open();
+
+                using (MySqlCommand query = connection.CreateCommand())
+                {
+                    query.CommandText = 
+                        @"UPDATE FROM publisher WHERE ID = @ID;";
+                    
+                    query.Parameters.AddWithValue("@ID", id);
+
+                    return query.ExecuteNonQuery();
+                }
+            }
+        }
     }
 }
