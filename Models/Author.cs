@@ -131,5 +131,23 @@ namespace simpleCRUD.Models
                 }
             }
         }
+
+        public int DeleteAuthor(int id)
+        {
+            using (var connection = DataBase.DataBaseConnector())
+            {
+                connection.Open();
+
+                using (MySqlCommand query = connection.CreateCommand())
+                {
+                    query.CommandText = 
+                        @"UPDATE FROM author WHERE ID = @ID;";
+                    
+                    query.Parameters.AddWithValue("@ID", id);
+
+                    return query.ExecuteNonQuery();
+                }
+            }
+        }
     }
 }
