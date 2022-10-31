@@ -58,6 +58,8 @@ namespace simpleCRUD
 
                 case 5:
                 {
+                    DeleteSubMenu();
+
                     break;
                 }
 
@@ -353,7 +355,91 @@ namespace simpleCRUD
 
         public void DeleteSubMenu()
         {
+            Console.Clear();
+            Console.WriteLine("1. Delete Book");
+            Console.WriteLine("2. Delete Author");
+            Console.WriteLine("3. Delete Publisher");
+            Console.Write("> ");
 
+            int opt = ReadMenuOption();
+
+            switch(opt)
+            {
+                case 1:
+                {
+                    Console.Clear();
+                    Console.WriteLine("==========\nDelete Book\n");        
+                    ListAllBooks();
+                    Console.Write("\n\nSelect Book's id: ");                    
+                    var id = int.Parse(Console.ReadLine());
+                    
+                    Book book   = new Book();                    
+                    var result  = book.DeleteBook(id);                    
+
+                    if (result > 0)
+                    {
+                        Console.Clear();
+                        Console.WriteLine("Book Deleted...");
+                    }                        
+                    else
+                    {
+                        Console.Clear();
+                        Console.WriteLine("We've got a problem...");
+                    }
+
+                    break;
+                }
+
+                case 2:
+                {
+                    Console.Clear();
+                    Console.WriteLine("==========\nDelete Book\n");        
+                    ListAllBooks();
+                    Console.Write("\n\nSelect author's id: ");                    
+                    var id = int.Parse(Console.ReadLine());
+                    
+                    Author author   = new Author();             
+                    var result      = author.DeleteAuthor(id);                    
+
+                    if (result > 0)
+                    {
+                        Console.Clear();
+                        Console.WriteLine("Author Deleted...");
+                    }                        
+                    else
+                    {
+                        Console.Clear();
+                        Console.WriteLine("We've got a problem...");
+                    }
+
+                    break;
+                }
+
+                case 3:
+                {
+                                        Console.Clear();
+                    Console.WriteLine("==========\nDelete Book\n");        
+                    ListAllBooks();
+                    Console.Write("\n\nSelect Book's id: ");                    
+                    var id = int.Parse(Console.ReadLine());
+                    
+                    Publisher publisher     = new Publisher();                    
+                    var result              = publisher.DeletePublisher(id);                    
+
+                    if (result > 0)
+                    {
+                        Console.Clear();
+                        Console.WriteLine("Publisher Deleted...");
+                    }                        
+                    else
+                    {
+                        Console.Clear();
+                        Console.WriteLine("We've got a problem...");
+                    }
+
+                    break;
+                }
+            }
         }
         
         public void UpdateSubMenu()
